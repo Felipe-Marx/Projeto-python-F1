@@ -52,16 +52,29 @@ def create_driver(driver:DriverCreate):
     return new_driver
 
 @app.put("/drivers/{driver_id}")
-def update_driver(driver:DriverCreate):
+def update_driver(driver:DriverCreate, driver_id: int):
     drivers = load_drivers()
     for piloto in drivers:
-        if piloto["id"] == driver.id:
+        if piloto["id"] == driver_id:
             piloto["name"] = driver.name
             piloto["team"] = driver.team
             piloto["points"] = driver.points
             
             with open("data/drivers.json", "w") as file:
-                    json.dump(drivers, file)
-            return driver
+                json.dump(drivers, file)
+            return piloto
     
+    raise HTTPException(status_code=404, detail="Driver not found")
+
+@app.delete("/drivers/{driver_id}")
+def delete_driver(driver_id: int):
+    drivers = load_drivers()
+    for piloto in drivers:
+        if piloto["id"] == driver_id:
+            drivers.remove(piloto)
+
+            with open("data/drivers.json", "w") as file:
+                json.dump(drivers, file)
+            return piloto
+
     raise HTTPException(status_code=404, detail="Driver not found")
