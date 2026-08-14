@@ -9,6 +9,10 @@ class DriverCreate(BaseModel):
     team: str
     points: int
 
+def save_drivers(drivers):
+    with open("data/drivers.json", "w") as file:
+        json.dump(drivers, file)
+
 @app.get("/")
 def home():
     return {"message": "F1 Data Analyzer API"}
@@ -46,8 +50,7 @@ def create_driver(driver:DriverCreate):
     }
 
     drivers.append(new_driver)
-    with open("data/drivers.json", "w") as file:
-        json.dump(drivers, file)
+    save_drivers(drivers)
 
     return new_driver
 
@@ -60,8 +63,7 @@ def update_driver(driver:DriverCreate, driver_id: int):
             piloto["team"] = driver.team
             piloto["points"] = driver.points
             
-            with open("data/drivers.json", "w") as file:
-                json.dump(drivers, file)
+            save_drivers(drivers)
             return piloto
     
     raise HTTPException(status_code=404, detail="Driver not found")
@@ -73,8 +75,7 @@ def delete_driver(driver_id: int):
         if piloto["id"] == driver_id:
             drivers.remove(piloto)
 
-            with open("data/drivers.json", "w") as file:
-                json.dump(drivers, file)
+            save_drivers(drivers)
             return piloto
 
     raise HTTPException(status_code=404, detail="Driver not found")
