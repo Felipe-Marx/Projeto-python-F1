@@ -171,7 +171,7 @@ data/drivers.json
 Clone o repositório:
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone https://github.com/Felipe-Marx/Projeto-python-F1
 ```
 
 Entre no diretório:
