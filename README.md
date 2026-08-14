@@ -240,8 +240,8 @@ http://127.0.0.1:8000/docs
 - [x] Listar pilotos
 - [x] Buscar piloto por ID
 - [x] Criar piloto
-- [ ] Atualizar piloto
-- [ ] Remover piloto
+- [x] Atualizar piloto
+- [x] Remover piloto
 - [ ] Melhorar validações
 - [ ] Separar o projeto em módulos
 - [ ] Migrar persistência de JSON para SQLite
