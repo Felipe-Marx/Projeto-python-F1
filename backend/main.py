@@ -1,21 +1,26 @@
 from fastapi import FastAPI, HTTPException
 import json
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator
 
 app = FastAPI()
 
 class DriverCreate(BaseModel):
-    name: str
-    team: str
-    points: int
+    name: str = Field(min_length=1)
+    team: str = Field(min_length=1)
+    points: int = Field(ge=0)
+
+    @field_validator("name", "team")
+    @classmethod
+    def verificar_texto(cls, texto:str):
+        if not texto.strip():
+            raise ValueError("Nome ou Time inválido.")
+        return texto.strip()
+        
+    
 
 def save_drivers(drivers):
     with open("data/drivers.json", "w") as file:
         json.dump(drivers, file)
-
-@app.get("/")
-def home():
-    return {"message": "F1 Data Analyzer API"}
 
 def load_drivers():
     with open("data/drivers.json", "r") as file:
@@ -23,9 +28,16 @@ def load_drivers():
 
     return drivers
 
+
+@app.get("/")
+def home():
+    return {"message": "F1 Data Analyzer API"}
+
+
 @app.get("/drivers")
 def lista_pilotos():
     return load_drivers()
+
 
 @app.get("/drivers/{driver_id}")
 def get_driver(driver_id: int):
@@ -36,6 +48,7 @@ def get_driver(driver_id: int):
             return driver
         
     raise HTTPException(status_code=404, detail="Driver not found")
+
 
 @app.post("/drivers")
 def create_driver(driver:DriverCreate):
@@ -54,6 +67,7 @@ def create_driver(driver:DriverCreate):
 
     return new_driver
 
+
 @app.put("/drivers/{driver_id}")
 def update_driver(driver:DriverCreate, driver_id: int):
     drivers = load_drivers()
@@ -68,6 +82,7 @@ def update_driver(driver:DriverCreate, driver_id: int):
     
     raise HTTPException(status_code=404, detail="Driver not found")
 
+
 @app.delete("/drivers/{driver_id}")
 def delete_driver(driver_id: int):
     drivers = load_drivers()
@@ -79,3 +94,4 @@ def delete_driver(driver_id: int):
             return piloto
 
     raise HTTPException(status_code=404, detail="Driver not found")
+
