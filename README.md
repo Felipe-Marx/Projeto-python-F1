@@ -174,10 +174,10 @@ Clone o repositório:
 git clone https://github.com/Felipe-Marx/Projeto-python-F1
 ```
 
-Entre no diretório:
+Entre no diretório do projeto:
 
 ```bash
-cd f1-data-analyzer
+cd Projeto-python-F1
 ```
 
 Crie um ambiente virtual:
@@ -192,10 +192,22 @@ Ative o ambiente virtual no Windows:
 venv\Scripts\activate
 ```
 
+No Linux ou macOS:
+
+```bash
+source venv/bin/activate
+```
+
 Instale as dependências:
 
 ```bash
 pip install fastapi uvicorn pydantic
+```
+
+Entre na pasta do backend:
+
+```bash
+cd backend
 ```
 
 Execute a aplicação:
@@ -228,8 +240,8 @@ http://127.0.0.1:8000/docs
 - [x] Listar pilotos
 - [x] Buscar piloto por ID
 - [x] Criar piloto
-- [ ] Atualizar piloto
-- [ ] Remover piloto
+- [x] Atualizar piloto
+- [x] Remover piloto
 - [ ] Melhorar validações
 - [ ] Separar o projeto em módulos
 - [ ] Migrar persistência de JSON para SQLite
