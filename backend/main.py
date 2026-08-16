@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
+from routers.drivers import router
 from models import DriverCreate
 from services import (
-    get_all_drivers,
     get_driver_by_id,
     create_driver as create_driver_service,
     update_driver as update_driver_service,
@@ -11,15 +11,11 @@ from services import (
 
 app = FastAPI()
 
+app.include_router(router)
 
 @app.get("/")
 def home():
     return {"message": "F1 Data Analyzer API"}
-
-
-@app.get("/drivers")
-def lista_pilotos():
-    return get_all_drivers()
 
 
 @app.get("/drivers/{driver_id}")
