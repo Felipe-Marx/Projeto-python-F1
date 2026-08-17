@@ -69,3 +69,16 @@ def delete_driver(driver_id: int):
             save_drivers(drivers)
             return piloto
     return None
+
+
+def get_driver_ranking(limit:int):
+    drivers = get_all_drivers()
+    ranking = sorted(drivers, key=lambda driver: driver["points"], reverse=True)
+    ranking_with_position = []
+    for index, driver in enumerate(ranking, start=1):
+        driver_with_position = {
+    **driver,
+    "position": index
+}
+        ranking_with_position.append(driver_with_position)
+    return ranking_with_position[:limit]
