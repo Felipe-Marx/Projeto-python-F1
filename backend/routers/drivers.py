@@ -21,6 +21,15 @@ def drivers_ranking(limit:int = Query(5, ge=1, le=22)):
     return get_driver_ranking(limit)
 
 
+@router.get("/drivers/statistics")
+def get_drivers_statistics():
+    result = get_driver_statistics()
+    if result is None:
+        raise HTTPException(status_code=404, detail="Drivers not found")
+
+    return result
+
+
 @router.get("/drivers/{driver_id}")
 def get_driver(driver_id: int):
     result = get_driver_by_id(driver_id)
@@ -49,9 +58,3 @@ def delete_driver(driver_id: int):
         raise HTTPException(status_code=404, detail="Driver not found")
     return result
 
-
-@router.get("/drivers/statistics")
-def get_drivers_statistics():
-    result = get_driver_statistics()
-    if result is None:
-        raise HTTPException(status_code=404, detail="Drivers not found")
