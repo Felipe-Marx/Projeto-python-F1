@@ -78,3 +78,18 @@ def get_driver_ranking(limit:int):
         {**driver, "position": index} for index, driver in enumerate(ranking, start=1)
     ]
     return ranking_with_position[:limit]
+
+def get_driver_statistics():
+    drivers = load_drivers()
+    if not drivers:
+        return None
+    points = [driver["points"] for driver in drivers]
+    drivers_statistics = {
+        "total_drivers" : len(drivers),
+        "total_points": sum(points),
+        "average_points": sum(points)/len(points),
+        "highest_points": max(points),
+        "lowest_points": min(points)
+    }
+
+    return drivers_statistics
