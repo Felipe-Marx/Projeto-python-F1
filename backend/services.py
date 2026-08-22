@@ -93,3 +93,22 @@ def get_driver_statistics():
     }
 
     return drivers_statistics
+
+def get_team_statistics():
+    drivers = load_drivers()
+    if not drivers:
+        return None
+    team_statistics = {}
+
+    for driver in drivers:
+        if driver["team"] in team_statistics:
+            team_statistics[driver["team"]]["drivers"] += 1
+            team_statistics[driver["team"]]["points"] += driver["points"]
+        else:
+
+            team_statistics[driver["team"]] = {
+                "drivers": 1,
+                "points": driver["points"]
+            } 
+
+    return team_statistics

@@ -6,7 +6,8 @@ from services import (
     create_driver as create_driver_service, 
     update_driver as update_driver_service, 
     delete_driver as delete_driver_service,
-    get_driver_ranking, get_driver_statistics
+    get_driver_ranking, get_driver_statistics, 
+    get_team_statistics
     )
 
 router = APIRouter()
@@ -58,3 +59,10 @@ def delete_driver(driver_id: int):
         raise HTTPException(status_code=404, detail="Driver not found")
     return result
 
+
+@router.get("/teams/statistics")
+def get_teams_statistics():
+    result = get_team_statistics()
+    if result is None:
+        raise HTTPException(status_code=404, detail="Team statistics not found")
+    return result
